@@ -15,17 +15,17 @@ st.title("Visualizações dos Streamers Dataset")
 st.sidebar.title("Filtros")
 
 # Filter by Language
-selected_language = st.sidebar.selectbox("Selecione a Linguagem", df['Language'].unique())
+selected_região = st.sidebar.selectbox("Selecione a Região", df['Região'].unique())
 
 # Filter by Partnership
 partner_column = next((col for col in ['Partner', 'Partnered'] if col in df.columns), None)
 
 if partner_column:
     selected_partner = st.sidebar.selectbox(f"Selecione a {partner_column}", df[partner_column].unique())
-    filtered_df = df[(df['Language'] == selected_language) & (df[partner_column] == selected_partner)]
+    filtered_df = df[(df['Região'] == selected_região) & (df[partner_column] == selected_partner)]
 else:
     # If 'Partner' or 'Partnered' column doesn't exist, filter only based on language
-    filtered_df = df[df['Language'] == selected_language]
+    filtered_df = df[df['Região'] == selected_região]
 
 # Filter by minimum followers
 min_followers = 1000
