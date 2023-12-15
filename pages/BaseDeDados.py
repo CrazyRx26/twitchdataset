@@ -18,4 +18,4 @@ st.write(f"Total de streamers: {len(df)}")
 
 # Display DataFrame or its columns
 st.subheader("Informações do DataFrame:")
-st.dataframe(df, height=35*len(df)+38) # or st.write(df.columns)
+st.dataframe(df, height=500*len(df)+38) # or st.write(df.columns)
