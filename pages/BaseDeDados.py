@@ -28,10 +28,3 @@ st.write(f"- **Número de Colunas (Variáveis):** {df.shape[1]}")
 st.write("## Colunas Principais")
 for col in df.columns:
     st.write(f"{col}: {df[col].nunique()} valores únicos")
-
-# Análise Exploratória
-st.write("## Análise Exploratória")
-
-# Display an interactive data table
-st.write("### Visualização da Tabela de Dados")
-st.dataframe(df)

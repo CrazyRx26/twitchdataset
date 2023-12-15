@@ -3,18 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
-# Load Twitch dataset
+# Carregar conjunto de dados Twitch
 df = pd.read_csv("twitchdata-update.csv")
 
-# Print the columns to verify the correct column names
+# Imprima as colunas para verificar os nomes corretos das colunas
 print("Columns in the DataFrame:", df.columns)
 
 st.title("Visualizações dos Streamers Dataset")
 
-# Sidebar for filters
+# Barra lateral para filtros
 st.sidebar.title("Filtros")
 
-# Filter by Region (formerly Language)
+# Filtrar por região (anteriormente idioma)
 selected_region = st.sidebar.selectbox("Selecione a Região", df['Language'].unique())
 
 # Filter by Parceiro (formerly Partner and Partnered)
@@ -27,15 +27,15 @@ else:
     # If 'Partner' or 'Partnered' column doesn't exist, filter only based on region
     filtered_df = df[df['Language'] == selected_region]
 
-# Filter by minimum followers
+# Filtrar por número mínimo de seguidores
 min_followers = 1000
 filtered_df = filtered_df[filtered_df['Followers'] >= min_followers]
 
-# Check if the filtered DataFrame is not empty
+# Verifique se o DataFrame filtrado não está vazio
 if filtered_df.empty:
     st.warning("Nenhum streamer encontrado com os filtros selecionados.")
 else:
-    # Categorize channels based on the number of followers
+    # Categorize canais com base no número de seguidores
     def categorize_followers(followers):
         if followers < 200000:
             return 'Simples'
@@ -48,23 +48,23 @@ else:
 
     filtered_df['Follower_Category'] = filtered_df['Followers'].apply(categorize_followers)
 
-    # Group by Follower Category
+    # Agrupar por categoria de seguidor
     follower_category_counts = filtered_df['Follower_Category'].value_counts()
 
-    # Sort categories by count in descending order (best to worst)
+    # Classifique as categorias por contagem em ordem decrescente (do melhor para o pior)
     sorted_categories = follower_category_counts.index.tolist()
     sorted_values = follower_category_counts.values.tolist()
 
-    # Display bar charts for all measures using the follower categories
+    # Exibir gráficos de barras para todas as medidas usando as categorias de seguidores
 
-    # Bar chart using Streamlit components
+    # Gráfico de barras usando componentes Streamlit
     st.subheader("Contagem por Categoria de Seguidores (Gráfico de Barras)")
 
-    # Using Altair for an interactive chart
+    # Usando Altair para um gráfico interativo
     chart_data = pd.DataFrame({'Categoria de Seguidores': sorted_categories, 'Contagem': sorted_values})
     st.altair_chart(chart_data, use_container_width=True)
 
-    # Bar chart using Matplotlib
+    # Gráfico de barras usando Matplotlib
     st.subheader("Contagem por Categoria de Seguidores (Matplotlib)")
 
     fig, ax = plt.subplots()
@@ -74,10 +74,17 @@ else:
     ax.set_title('Contagem por Categoria de Seguidores')
     st.pyplot(fig)
 
-    # Bar chart using Plotly
+    # Gráfico de barras usando Plotly
     st.subheader("Contagem por Categoria de Seguidores (Plotly)")
 
     data = [go.Bar(x=sorted_categories, y=sorted_values, marker=dict(color='lightcoral'))]
     layout = go.Layout(title='Contagem por Categoria de Seguidores', xaxis=dict(title='Categoria de Seguidores'), yaxis=dict(title='Contagem'))
     fig_bar = go.Figure(data=data, layout=layout)
     st.plotly_chart(fig_bar)
+
+    # Análise Exploratória
+    st.write("## Análise Exploratória")
+
+    # Display an interactive data table
+    st.write("### Visualização da Tabela de Dados")
+    st.dataframe(df)
