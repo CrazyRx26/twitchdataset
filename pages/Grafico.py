@@ -17,16 +17,15 @@ st.sidebar.title("Filtros")
 # Filter by Region (formerly Language)
 selected_region = st.sidebar.selectbox("Selecione a Região", df['Language'].unique())
 
-# Filter by Parceria (Parceiro and Parceria)
-parceria_column = next((col for col in ['Parceiro', 'Parceria'] if col in df.columns), None)
+# Filter by Parceiro (formerly Partner and Partnered)
+parceiro_column = next((col for col in ['Partner', 'Partnered'] if col in df.columns), None)
 
-if parceria_column:
-    selected_parceria = st.sidebar.selectbox(f"Selecione a {parceria_column}", df[parceria_column].unique())
-    filtered_df = df[(df['Region'] == selected_region) & (df[parceria_column] == selected_parceria)]
+if parceiro_column:
+    selected_parceiro = st.sidebar.selectbox(f"Selecione o Parceiro", df[parceiro_column].unique())
+    filtered_df = df[(df['Language'] == selected_region) & (df[parceiro_column] == selected_parceiro)]
 else:
-    # If 'Parceiro' or 'Parceria' column doesn't exist, filter only based on region
-    filtered_df = df[df['Region'] == selected_region]
-
+    # If 'Partner' or 'Partnered' column doesn't exist, filter only based on region
+    filtered_df = df[df['Language'] == selected_region]
 
 # Filter by minimum followers
 min_followers = 1000
