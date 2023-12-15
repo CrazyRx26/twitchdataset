@@ -35,15 +35,3 @@ st.write("## Análise Exploratória")
 # Display an interactive data table
 st.write("### Visualização da Tabela de Dados")
 st.dataframe(df)
-
-# Display a bar chart showing the distribution of passengers by survival status
-st.write("### Distribuição de Passageiros por Sobrevivência")
-survival_chart = alt.Chart(df).mark_bar().encode(
-    x='Survived:O',
-    y='count()',
-    color='Survived:N'
-).properties(
-    title="Distribuição de Passageiros por Sobrevivência",
-    width=600
-)
-st.altair_chart(survival_chart, use_container_width=True)
